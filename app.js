@@ -1,4 +1,4 @@
-const getNotes = require('./notes');
+const notes = require('./notes');
 const chalk = require('chalk');
 const yargs = require('yargs');
 
@@ -22,33 +22,46 @@ yargs.command({
             type: 'string'
         }
     },
-    handler: function(argv){
-        console.log('Title:', argv.title);
-        console.log('Body:', argv.body);
+    handler(argv){
+        notes.addNote(argv.title, argv.body);
     }
 });
 
 yargs.command({
     command: 'remove',
     describe: 'This will remove a note',
-    handler: function(){
-        console.log('Removing a note!');
+    builder: {
+        title:{
+            describe: 'Note title',
+            demandOption: true,
+            type: 'string'
+        }
+    },
+    handler(argv){
+        notes.removeNote(argv.title);
     }
 });
 
 yargs.command({
     command: 'read',
     describe: 'This will read a note',
-    handler: function(){
-        console.log('Reading a note!');
+    builder:{
+        title:{
+            describe:'Note title',
+            demandOption: true,
+            type:'string'
+        }
+    },
+    handler(argv){
+        notes.readNote(argv.title);
     }
 });
 
 yargs.command({
     command: 'list',
     describe: 'This will list all your notes',
-    handler: function(){
-        console.log('list your note!');
+    handler(){
+        notes.listNotes();
     }
 });
 
